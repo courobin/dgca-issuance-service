@@ -55,3 +55,8 @@ jobs:
         APP_PACKAGES_URL: docker.pkg.github.com/${{ github.repository }}/dgca-issuance-service
         APP_PACKAGES_USERNAME: ${{ github.actor }}
         APP_PACKAGES_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        
+    - uses: steebchen/kubectl@v2.0.0
+      with:
+        config: ${{ secrets.DEV_KUBECONFIG }}
+        command: apply -n dgca-test -f ./k8s/dev_deployment.yaml
