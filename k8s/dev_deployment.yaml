@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: issuance-service
+  namespace: dgca-test
+  labels:
+    app: issuance-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app: issuance-service
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: issuance-service
+  namespace: dgca-test
+  labels:
+    app: issuance-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: issuance-service
+  template:
+    metadata:
+      labels:
+        app: issuance-service
+    spec:
+      volumes:
+        - name: destination
+          secret:
+            secretName: destination-service-binding-issuance
+        - name: xsuaa
+          secret:
+            secretName: uaa-service-binding-issuance
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: issuance-service
+          image: ghcr.io/courobin/dgca-issuance-service:latest
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "cloud,btp"
+            - name: DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PATH
+              value: "false"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://db-issuance/postgresdb
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: dgca-issuance
+                  key: POSTGRES_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: dgca-issuance
+                  key: POSTGRES_PASSWORD
+            - name: LOGGING_LEVEL_ROOT
+              value: DEBUG
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 443
+          volumeMounts:
+            - name: destination
+              mountPath: "/etc/secrets/sapcp/destination/destination-service-instance-issuance"
+              readOnly: true
+            - name: xsuaa
+              mountPath: "/etc/secrets/sapcp/xsuaa/uaa-service-instance-issuance"
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: uaa-service-instance-issuance
+  namespace: dgca-test
+spec:
+  clusterServiceClassExternalName: xsuaa
+  clusterServicePlanExternalName: application
+  parameters:
+    xsappname: xsuaa-kyma-issuance
+    tenant-mode: dedicated
+    oauth2-configuration:
+      redirect-uris:
+        - https://*/**
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: uaa-service-binding-issuance
+  namespace: dgca-test
+spec:
+  instanceRef:
+    name: uaa-service-instance-issuance
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: destination-service-instance-issuance
+  namespace: dgca-test
+spec:
+  clusterServiceClassExternalName: destination
+  clusterServicePlanExternalName: lite
+
+---
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: destination-service-binding-issuance
+  namespace: dgca-test
+spec:
+  instanceRef:
+    name: destination-service-instance-issuance
