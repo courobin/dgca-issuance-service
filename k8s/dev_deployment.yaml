@@ -48,15 +48,15 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "cloud,btp"
             - name: DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PATH
-              value: "false"
+              value: false
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://db-issuance/postgresdb
             - name: MANAGEMENT_ENDPOINT_INFO_ENABLED
-              value: "false"
+              value: false
             - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
-              value: "false"
+              value: false
             - name: SAP_BTP_CREDSTORE_ENCRYPTED
-              value: "true"
+              value: true
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 configMapKeyRef:
