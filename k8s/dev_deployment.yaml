@@ -44,31 +44,9 @@ spec:
         - name: issuance-service
           image: docker.pkg.github.com/courobin/dgca-issuance-service/dgca-issuance-service:1.0.7-f22c9af
           imagePullPolicy: Always
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: "cloud,btp"
-            - name: DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PATH
-              value: false
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://db-issuance/postgresdb
-            - name: MANAGEMENT_ENDPOINT_INFO_ENABLED
-              value: false
-            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
-              value: false
-            - name: SAP_BTP_CREDSTORE_ENCRYPTED
-              value: true
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: dgca-issuance
-                  key: POSTGRES_USER
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: dgca-issuance
-                  key: POSTGRES_PASSWORD
-            - name: LOGGING_LEVEL_ROOT
-              value: DEBUG
+          envFrom:
+            - configMapRef:
+                name: dgca-issuance-service
           ports:
             - name: http
               containerPort: 8080
