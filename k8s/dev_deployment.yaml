@@ -51,6 +51,12 @@ spec:
               value: "false"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://db-issuance/postgresdb
+            - name: MANAGEMENT_ENDPOINT_INFO_ENABLED
+              value: "false"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_ENABLED
+              value: "false"
+            - name: SAP_BTP_CREDSTORE_ENCRYPTED
+              value: "true"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 configMapKeyRef:
