@@ -39,6 +39,8 @@ public class CredentialStore {
         log.debug("Querying key with name '{}'.", name);
         String response = restTemplate.getForEntity(url + "/key?name=" + URLEncoder.encode(name,
             StandardCharsets.UTF_8), String.class).getBody();
+        log.info(url)
+        log.info(response)
         return SapCredential.fromJson(cryptoUtil.decrypt(response));
     }
 
