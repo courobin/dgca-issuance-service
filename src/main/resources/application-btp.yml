@@ -1,7 +1,7 @@
 sap:
   btp:
     credstore:
-      namespace: credstore-runny-time
+      namespace: dgca-test
       encrypted: false
       username: <replaced_by_cfenv>
       password: <replaced_by_cfenv>
