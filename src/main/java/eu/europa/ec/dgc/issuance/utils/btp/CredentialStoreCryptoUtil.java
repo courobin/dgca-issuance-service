@@ -43,7 +43,8 @@ public class CredentialStoreCryptoUtil {
         if (!encryptionEnabled) {
             return;
         }
-
+        log.info("Private Client Key {}.", clientPrivateKeyBase64);
+        log.info("Server Public Key {}.", serverPublicKeyBase64);
         KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder()
             .decode(clientPrivateKeyBase64));
