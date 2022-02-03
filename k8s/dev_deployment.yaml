@@ -38,6 +38,9 @@ spec:
         - name: xsuaa
           secret:
             secretName: uaa-service-binding-issuance
+        - name: credstore
+          secret:
+            secretName: credstore-service-binding-issuance
       imagePullSecrets:
         - name: regcred
       containers:
@@ -55,6 +58,9 @@ spec:
           volumeMounts:
             - name: destination
               mountPath: "/etc/secrets/sapcp/destination/destination-service-instance-issuance"
+              readOnly: true
+            - name: credstore
+              mountPath: "/etc/secrets/sapcp/credstore/credstore-runny-time"
               readOnly: true
             - name: xsuaa
               mountPath: "/etc/secrets/sapcp/xsuaa/uaa-service-instance-issuance"
