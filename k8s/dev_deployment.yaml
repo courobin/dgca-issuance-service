@@ -38,9 +38,9 @@ spec:
         - name: xsuaa
           secret:
             secretName: uaa-service-binding-issuance
-        - name: credstore
-          secret:
-            secretName: credstore-service-binding-issuance
+#         - name: credstore
+#           secret:
+#             secretName: credstore-service-binding-issuance
       imagePullSecrets:
         - name: regcred
       containers:
@@ -59,9 +59,9 @@ spec:
             - name: destination
               mountPath: "/etc/secrets/sapcp/destination/destination-service-instance-issuance"
               readOnly: true
-            - name: credstore
-              mountPath: "/etc/secrets/sapcp/credstore/credstore-runny-time"
-              readOnly: true
+#             - name: credstore
+#               mountPath: "/etc/secrets/sapcp/credstore/credstore-runny-time"
+#               readOnly: true
             - name: xsuaa
               mountPath: "/etc/secrets/sapcp/xsuaa/uaa-service-instance-issuance"
               readOnly: true
@@ -115,12 +115,12 @@ metadata:
 spec:
   instanceRef:
     name: destination-service-instance-issuance
----
-apiVersion: servicecatalog.k8s.io/v1beta1
-kind: ServiceBinding
-metadata:
-  name: credstore-service-binding-issuance
-  namespace: dgca-test
-spec:
-  instanceRef:
-    name: credstore-runny-time
+# ---
+# apiVersion: servicecatalog.k8s.io/v1beta1
+# kind: ServiceBinding
+# metadata:
+#   name: credstore-service-binding-issuance
+#   namespace: dgca-test
+# spec:
+#   instanceRef:
+#     name: credstore-runny-time
