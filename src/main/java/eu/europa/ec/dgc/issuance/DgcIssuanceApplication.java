@@ -24,6 +24,8 @@ import eu.europa.ec.dgc.issuance.config.IssuanceConfigProperties;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ServletComponentScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -33,6 +35,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * The Application class.
  */
 @SpringBootApplication
+@ComponentScan({"com.sap.cloud.sdk", "eu.europa.ec.dgc.issuance.service"})
+@ServletComponentScan({"com.sap.cloud.sdk", "eu.europa.ec.dgc.issuance.service"})
 @EnableConfigurationProperties({IssuanceConfigProperties.class})
 public class DgcIssuanceApplication extends SpringBootServletInitializer {
 
