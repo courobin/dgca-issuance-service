@@ -67,7 +67,7 @@ spec:
               readOnly: true
           readinessProbe:
             httpGet:
-              path: /
+              path: /context
               port: 8080
 
 ---
