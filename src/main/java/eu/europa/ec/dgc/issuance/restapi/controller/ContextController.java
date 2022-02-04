@@ -27,7 +27,7 @@ public class ContextController {
         @ApiResponse(responseCode = "200", description = "server list")}
     )
     @GetMapping(value = "")
-    public ResponseEntity<JsonNode> context() {
+    public context() {
         return "{Hello World}";
     }
 }
