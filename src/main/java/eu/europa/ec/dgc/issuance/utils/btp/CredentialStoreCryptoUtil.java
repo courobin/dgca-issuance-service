@@ -41,9 +41,9 @@ public class CredentialStoreCryptoUtil {
         if (!encryptionEnabled) {
             return;
         }
-        log.info("Encryption: {}", encryption)
+        log.info("Encryption: {}", encryption);
         JsonObject convertedObject = new Gson().fromJson(encryption, JsonObject.class);
-        log.info("Converted: {}", convertedObject)
+        log.info("Converted: {}", convertedObject.get("client_private_key"));
 
         KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder()
