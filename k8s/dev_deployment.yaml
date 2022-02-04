@@ -65,10 +65,10 @@ spec:
             - name: xsuaa
               mountPath: "/etc/secrets/sapcp/xsuaa/uaa-service-instance-issuance"
               readOnly: true
-#           readinessProbe:
-#             httpGet:
-#               path: /context
-#               port: 8080
+          readinessProbe:
+            httpGet:
+              path: /context
+              port: 8080
 
 ---
 apiVersion: servicecatalog.k8s.io/v1beta1
