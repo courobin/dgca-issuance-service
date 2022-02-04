@@ -1,6 +1,7 @@
 package eu.europa.ec.dgc.issuance.utils.btp;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEObject;
 import com.nimbusds.jose.Payload;
@@ -17,7 +18,6 @@ import java.util.Base64;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -43,7 +43,7 @@ public class CredentialStoreCryptoUtil {
             return;
         }
         log.info("Encryption: {}", encryption);
-        var convertedObject = gson().fromJson(toJsonString(encryption));
+        JsonObject convertedObject = new Gson().fromJson(encryption, JsonObject.class);
         log.info("Converted: {}", convertedObject.get("client_private_key"));
 
         KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
