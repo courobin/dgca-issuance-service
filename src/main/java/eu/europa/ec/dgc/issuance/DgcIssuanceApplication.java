@@ -35,9 +35,7 @@ import org.springframework.context.annotation.ComponentScan;
  * The Application class.
  */
 @SpringBootApplication
-@ComponentScan({"com.sap.cloud.sdk", "eu.europa.ec.dgc.issuance"})
 @EnableConfigurationProperties({IssuanceConfigProperties.class})
-@ServletComponentScan({"com.sap.cloud.sdk", "eu.europa.ec.dgc.issuance"})
 public class DgcIssuanceApplication extends SpringBootServletInitializer {
 
     /**
