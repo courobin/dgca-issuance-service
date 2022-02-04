@@ -43,7 +43,7 @@ public class CredentialStoreCryptoUtil {
             return;
         }
         log.info("Encryption: {}", encryption);
-        JsonObject convertedObject = new Gson().fromJson(encryption, JsonObject.class);
+        var convertedObject = gson().fromJson(toJsonString(encryption));
         log.info("Converted: {}", convertedObject.get("client_private_key"));
 
         KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
