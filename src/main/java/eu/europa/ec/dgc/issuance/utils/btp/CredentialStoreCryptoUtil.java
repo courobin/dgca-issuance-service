@@ -1,5 +1,6 @@
 package eu.europa.ec.dgc.issuance.utils.btp;
 
+import com.google.gson.Gson;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEObject;
 import com.nimbusds.jose.Payload;
@@ -25,11 +26,8 @@ import org.springframework.stereotype.Component;
 @Profile("btp")
 public class CredentialStoreCryptoUtil {
 
-    @Value("${sap.btp.credstore.encryption.clientPrivateKey}")
-    private String clientPrivateKeyBase64;
-
-    @Value("${sap.btp.credstore.encryption.serverPublicKey}")
-    private String serverPublicKeyBase64;
+    @Value("${sap.btp.credstore.encryption}")
+    private String encryption;
 
     @Value("${sap.btp.credstore.encrypted}")
     private boolean encryptionEnabled;
@@ -43,15 +41,17 @@ public class CredentialStoreCryptoUtil {
         if (!encryptionEnabled) {
             return;
         }
-        log.info("Private Client Key {}.", clientPrivateKeyBase64);
-        log.info("Server Public Key {}.", serverPublicKeyBase64);
+        log.info("Encryption: {}", encryption)
+        JsonObject convertedObject = new Gson().fromJson(encryption, JsonObject.class);
+        log.info("Converted: {}", convertedObject)
+
         KeyFactory rsaKeyFactory = KeyFactory.getInstance("RSA");
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder()
-            .decode(clientPrivateKeyBase64));
+            .decode(convertedObject.get("client_private_key").getAsString()));
         this.ownPrivateKey = rsaKeyFactory.generatePrivate(pkcs8EncodedKeySpec);
 
         X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(Base64.getDecoder()
-            .decode(serverPublicKeyBase64));
+            .decode(convertedObject.get("server_public_key").getAsString()));
         this.serverPublicKey = rsaKeyFactory.generatePublic(x509EncodedKeySpec);
     }
 
