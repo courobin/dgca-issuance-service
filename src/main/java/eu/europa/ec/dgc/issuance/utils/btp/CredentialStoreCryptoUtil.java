@@ -1,6 +1,7 @@
 package eu.europa.ec.dgc.issuance.utils.btp;
 
 import com.google.gson.Gson;
+import org.json.simple.JSONObject;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEObject;
 import com.nimbusds.jose.Payload;
