@@ -25,10 +25,10 @@ import org.springframework.stereotype.Component;
 @Profile("btp")
 public class CredentialStoreCryptoUtil {
 
-    @Value("${sap.btp.credstore.clientPrivateKey}")
+    @Value("${sap.btp.credstore.encryption.clientPrivateKey}")
     private String clientPrivateKeyBase64;
 
-    @Value("${sap.btp.credstore.serverPublicKey}")
+    @Value("${sap.btp.credstore.encryption.serverPublicKey}")
     private String serverPublicKeyBase64;
 
     @Value("${sap.btp.credstore.encrypted}")
